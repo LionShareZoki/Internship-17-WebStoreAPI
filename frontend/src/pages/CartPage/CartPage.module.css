@@ -1,0 +1,48 @@
+.cartContainer {
+  margin: auto;
+  max-width: 600px;
+  padding: 20px;
+}
+
+.cartContainer h2 {
+  text-align: center;
+}
+
+.cartItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.removeButton {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.paymentButton {
+  margin-left: auto;
+  padding: 10px 15px;
+  background-color: rgb(0, 210, 0);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+}
+
+.paymentButton:hover {
+  background-color: rgba(15, 22, 5, 0.429);
+}
+
+.removeButton:hover {
+  background-color: #c82333;
+}
+
+.buttonWrapper {
+  width: 100%;
+}
