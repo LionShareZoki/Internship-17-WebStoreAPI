@@ -19,7 +19,7 @@ import { UserAuthGuard } from 'src/users/user-auth.guard';
 @Controller('wishlist-items')
 export class WishlistItemsController {
   constructor(private readonly wishlistItemsService: WishlistItemsService) {}
-  @UseGuards(UserActivation)
+  @UseGuards(UserAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create a new wishlist item' })
   @ApiBody({

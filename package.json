@@ -2,6 +2,9 @@
   "devDependencies": {
     "turbo": "^1.7.4"
   },
+  "scripts": {
+    "dev": "turbo run dev"
+  },
   "workspaces": [
     "apps/*"
   ]
