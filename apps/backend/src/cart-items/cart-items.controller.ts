@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserAuthGuard } from 'src/users/user-auth.guard';
 
@@ -26,6 +27,7 @@ import { UserAuthGuard } from 'src/users/user-auth.guard';
 export class CartItemsController {
   constructor(private readonly cartItemsService: CartItemsService) {}
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: 'Create a new cart item' })
   @ApiBody({
@@ -50,6 +52,7 @@ export class CartItemsController {
     return this.cartItemsService.create(createCartItemDto);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all cart items' })
   @ApiResponse({ status: 200, description: 'Returns all cart items.' })
@@ -57,6 +60,7 @@ export class CartItemsController {
     return this.cartItemsService.findAll();
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get a cart item by ID' })
   @ApiParam({ name: 'id', description: 'Cart Item ID' })
@@ -68,6 +72,7 @@ export class CartItemsController {
     return this.cartItemsService.findOne(+id);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a cart item by ID' })
   @ApiParam({ name: 'id', description: 'Cart Item ID' })
@@ -83,6 +88,7 @@ export class CartItemsController {
     return this.cartItemsService.update(+id, updateCartItemDto);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a cart item by ID' })
   @ApiParam({ name: 'id', description: 'Cart Item ID' })

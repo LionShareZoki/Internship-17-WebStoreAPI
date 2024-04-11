@@ -12,7 +12,7 @@ import {
 import { WishlistItemsService } from './wishlist-items.service';
 import { CreateWishlistItemDto } from './dto/create-wishlist-item.dto';
 import { UpdateWishlistItemDto } from './dto/update-wishlist-item.dto';
-import { ApiTags, ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { UserAuthGuard } from 'src/users/user-auth.guard';
 
 @ApiTags('wishlist-items')
@@ -20,6 +20,7 @@ import { UserAuthGuard } from 'src/users/user-auth.guard';
 export class WishlistItemsController {
   constructor(private readonly wishlistItemsService: WishlistItemsService) {}
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: 'Create a new wishlist item' })
   @ApiBody({
@@ -41,6 +42,7 @@ export class WishlistItemsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all wishlist items' })
   findAll() {
@@ -48,6 +50,7 @@ export class WishlistItemsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get specific wishlist item' })
   findOne(@Param('id', ParseIntPipe) id: string) {
@@ -55,6 +58,7 @@ export class WishlistItemsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update specific wishlist item' })
   update(
@@ -65,6 +69,7 @@ export class WishlistItemsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete specific wishlist item' })
   remove(@Param('id', ParseIntPipe) id: string) {

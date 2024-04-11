@@ -12,6 +12,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Web store API')
     .setDescription('Set of APIs for web store')
+    .addBearerAuth()
     .setVersion('0.1')
     .build();
 
@@ -21,7 +22,7 @@ async function bootstrap() {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
-
+  app.enableCors();
   await app.listen(3000);
 }
 

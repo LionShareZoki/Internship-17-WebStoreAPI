@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserAuthGuard } from 'src/users/user-auth.guard';
 
@@ -27,6 +28,7 @@ export class WishlistsController {
   constructor(private readonly wishlistsService: WishlistsService) {}
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: 'Create a new wishlist' })
   @ApiBody({
@@ -51,6 +53,7 @@ export class WishlistsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all wishlists' })
   @ApiResponse({ status: 200, description: 'Returns all wishlists.' })
@@ -59,6 +62,7 @@ export class WishlistsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get a wishlist by ID' })
   @ApiParam({ name: 'id', description: 'Wishlist ID' })
@@ -71,6 +75,7 @@ export class WishlistsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a wishlist by ID' })
   @ApiParam({ name: 'id', description: 'Wishlist ID' })
@@ -87,6 +92,7 @@ export class WishlistsController {
   }
 
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a wishlist by ID' })
   @ApiParam({ name: 'id', description: 'Wishlist ID' })

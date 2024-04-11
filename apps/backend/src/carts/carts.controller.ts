@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserAuthGuard } from 'src/users/user-auth.guard';
 import { AdminAuthGuard } from 'src/users/admin-auth.guard';
@@ -27,6 +28,7 @@ import { AdminAuthGuard } from 'src/users/admin-auth.guard';
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: 'Create a new cart' })
   @ApiBody({
@@ -49,6 +51,7 @@ export class CartsController {
     return this.cartsService.create(createCartDto);
   }
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all carts' })
   @ApiResponse({ status: 200, description: 'Returns all carts.' })
@@ -56,6 +59,7 @@ export class CartsController {
     return this.cartsService.findAll();
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get a cart by ID' })
   @ApiParam({ name: 'id', description: 'Cart ID' })
@@ -67,6 +71,7 @@ export class CartsController {
     return this.cartsService.findOne(+id);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a cart by ID' })
   @ApiParam({ name: 'id', description: 'Cart ID' })
@@ -80,6 +85,7 @@ export class CartsController {
     return this.cartsService.update(+id, updateCartDto);
   }
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a cart by ID' })
   @ApiParam({ name: 'id', description: 'Cart ID' })

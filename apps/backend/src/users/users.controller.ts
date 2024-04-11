@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -28,6 +29,7 @@ import { AdminAuthGuard } from './admin-auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
   @ApiBody({
@@ -53,6 +55,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'Returns all users.' })
@@ -61,6 +64,7 @@ export class UsersController {
   }
 
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiParam({ name: 'id', description: 'User ID' })
@@ -73,6 +77,7 @@ export class UsersController {
   }
 
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a user by ID' })
   @ApiParam({ name: 'id', description: 'User ID' })
@@ -89,6 +94,7 @@ export class UsersController {
   }
 
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user by ID' })
   @ApiParam({ name: 'id', description: 'User ID' })

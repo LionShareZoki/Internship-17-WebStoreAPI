@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserAuthGuard } from 'src/users/user-auth.guard';
 import { AdminAuthGuard } from 'src/users/admin-auth.guard';
@@ -27,6 +28,7 @@ import { AdminAuthGuard } from 'src/users/admin-auth.guard';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiBody({
     description: 'Example of Product POST request',
@@ -51,6 +53,7 @@ export class OrdersController {
     return this.ordersService.create(createOrderDto);
   }
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all orders' })
   @ApiResponse({ status: 200, description: 'Returns all orders.' })
@@ -58,6 +61,7 @@ export class OrdersController {
     return this.ordersService.findAll();
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get an order by ID' })
   @ApiParam({ name: 'id', description: 'Order ID' })
@@ -69,6 +73,7 @@ export class OrdersController {
     return this.ordersService.findOne(+id);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update an order by ID' })
   @ApiParam({ name: 'id', description: 'Order ID' })
@@ -81,6 +86,7 @@ export class OrdersController {
     return this.ordersService.update(+id, updateOrderDto);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an order by ID' })
   @ApiParam({ name: 'id', description: 'Order ID' })

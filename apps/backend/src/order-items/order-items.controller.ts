@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { UserAuthGuard } from 'src/users/user-auth.guard';
 
@@ -26,6 +27,7 @@ import { UserAuthGuard } from 'src/users/user-auth.guard';
 export class OrderItemsController {
   constructor(private readonly orderItemsService: OrderItemsService) {}
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: 'Create a new order item' })
   @ApiBody({
@@ -51,6 +53,7 @@ export class OrderItemsController {
     return this.orderItemsService.create(createOrderItemDto);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get()
   @ApiOperation({ summary: 'Get all order items' })
   @ApiResponse({ status: 200, description: 'Returns all order items.' })
@@ -58,6 +61,7 @@ export class OrderItemsController {
     return this.orderItemsService.findAll();
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Get(':id')
   @ApiOperation({ summary: 'Get an order item by ID' })
   @ApiParam({ name: 'id', description: 'Order Item ID' })
@@ -69,6 +73,7 @@ export class OrderItemsController {
     return this.orderItemsService.findOne(+id);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update an order item by ID' })
   @ApiParam({ name: 'id', description: 'Order Item ID' })
@@ -84,6 +89,7 @@ export class OrderItemsController {
     return this.orderItemsService.update(+id, updateOrderItemDto);
   }
   @UseGuards(UserAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an order item by ID' })
   @ApiParam({ name: 'id', description: 'Order Item ID' })

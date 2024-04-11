@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AdminAuthGuard } from 'src/users/admin-auth.guard';
 
@@ -26,6 +27,7 @@ import { AdminAuthGuard } from 'src/users/admin-auth.guard';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Post()
   @ApiBody({
     description: 'Example of Product POST request',
@@ -70,6 +72,7 @@ export class ProductsController {
     return this.productsService.findOne(+id);
   }
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Patch(':id')
   @ApiOperation({ summary: 'Update a product by ID' })
   @ApiParam({ name: 'id', description: 'Product ID' })
@@ -82,6 +85,7 @@ export class ProductsController {
     return this.productsService.update(+id, updateProductDto);
   }
   @UseGuards(AdminAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a product by ID' })
   @ApiParam({ name: 'id', description: 'Product ID' })
