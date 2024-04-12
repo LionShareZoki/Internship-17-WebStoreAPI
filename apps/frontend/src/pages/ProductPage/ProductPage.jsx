@@ -8,27 +8,68 @@ const ProductPage = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${productId}`)
+    fetch(`http://localhost:3000/products/${productId}`)
       .then((res) => res.json())
       .then((data) => setProduct(data));
 
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        const related = data.filter((item) => item.id.toString() !== productId);
-        const shuffledRelated = related
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 4);
-        setRelatedProducts(shuffledRelated);
-      });
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch("http://localhost:3000/products", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const related = data.filter(
+            (item) => item.id.toString() !== productId
+          );
+          const shuffledRelated = related
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 4);
+          setRelatedProducts(shuffledRelated);
+        })
+        .catch((error) => {
+          console.error("Error fetching related products:", error);
+        });
+    }
   }, [productId]);
 
   const addToCart = () => {
     console.log("Product added to cart:", product);
   };
 
-  const addToWishlist = () => {
-    console.log("Product added to wishlist:", product);
+  const addToWishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("User not authenticated. Unable to add to wishlist.");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/wishlist-items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          wishlistId: 2,
+          productId: parseInt(productId),
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Product added to wishlist successfully");
+      } else {
+        console.error(
+          "Failed to add product to wishlist:",
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    }
   };
 
   if (!product) return <div>Učitavanje...</div>;
