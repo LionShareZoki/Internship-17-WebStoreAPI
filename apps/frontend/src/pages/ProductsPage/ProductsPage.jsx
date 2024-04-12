@@ -15,23 +15,88 @@ const ProductsPage = () => {
   };
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch("http://localhost:3000/products", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         const searchQueryStr = searchQuery ? searchQuery.toLowerCase() : "";
         const filteredProducts = data.filter((product) =>
-          product.title.toLowerCase().includes(searchQueryStr)
+          product.name.toLowerCase().includes(searchQueryStr)
         );
         setProducts(filteredProducts);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
       });
-  }, [searchQuery]);
+  }, [searchQuery, navigate]);
 
-  const addToCart = () => {
-    console.log("Product added to cart");
+  const addToCart = (productId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch("http://localhost:3000/cart-items", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cartId: 1,
+        productId: productId,
+        quantity: 1,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log("Product added to cart");
+        } else {
+          console.error("Failed to add product to cart:", res.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding product to cart:", error);
+      });
   };
 
-  const addToWishlist = () => {
-    console.log("Product added to wishlist");
+  const addToWishlist = (productId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch("http://localhost:3000/wishlist-items", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: productId,
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log("Product added to wishlist");
+        } else {
+          console.error("Failed to add product to wishlist:", res.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding product to wishlist:", error);
+      });
   };
 
   return (
@@ -43,20 +108,23 @@ const ProductsPage = () => {
           className={styles.productCard}
         >
           <img
-            src={product.image}
-            alt={product.title}
+            src={product.imageUrl}
+            alt={product.name}
             className={styles.productImage}
           />
-          <h2 className={styles.productTitle}>{product.title}</h2>
+          <h2 className={styles.productTitle}>{product.name}</h2>
           <div className={styles.buttonsContainer}>
-            <button className={styles.addToCartButton} onClick={addToCart}>
+            <button
+              className={styles.addToCartButton}
+              onClick={() => addToCart(product.id)}
+            >
               Buy
             </button>
             <button
               className={styles.addToWishlistButton}
-              onClick={addToWishlist}
+              onClick={() => addToWishlist(product.id)}
             >
-              <img src={heart} />
+              <img src={heart} alt="Add to wishlist" />
             </button>
           </div>
         </div>
